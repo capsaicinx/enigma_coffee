@@ -10,24 +10,28 @@ import itertools
 def tuplesort(inputtuple):
     a = inputtuple[0]
     b = inputtuple[1]
-    length = len(a)
-    if (length > len(b)):
-        length = len(b)
+    #user lowercase string for comparisson, otherwise A != a
+    al = a.lower()
+    bl = b.lower()
+    length = len(al)
+    if (length > len(bl)):
+        length = len(bl)
     for x in range(length):
-        if a[x] > b[x]:
+        if (al[x] > bl[x]):
             outputtuple = (b,a)
             return outputtuple
             break
-        if  a[x] < b[x]:
+        if  (al[x] < bl[x]):
             outputtuple= (a,b)
             return outputtuple
             break
         if x==length-1:
-            if len(a) > len(b):
-                outputtuple=(b,a)
+            if len(al) > len(bl):
+                outputtuple= (b,a)
                 return outputtuple
             else:
-                return (a,b)
+                outputtuple= (a,b)
+                return outputtuple
 
 #Reading in participants
 participants = pd.read_csv('participants.csv', header=0, encoding = 'utf8', delimiter=';')
@@ -41,33 +45,22 @@ print(previous_matches.to_string(index=False, header=False));
 
 print('')
 
-#generate all possible matches from participants
+#generate all possible matches (2ppl) from participants
 participantslist = participants.Names.tolist()
-print('List of Participants:')
-print(participantslist)
-print('')
 print('List of possible matches/combinations:')
 combinationslist = list(itertools.combinations(participantslist, 2));
 print(combinationslist)
 
-#try loop
+#Sorting individual tupls alphabetically
 print('Sorting combinations alphabetically')
 for i in combinationslist:
-    print('a: '+ i[0]+ ' b:'+ i[1])
+    print(i)
+    print(tuplesort(i))
 
-print('test tuplesort')
-testtuple = ("abcd","abc");
-print(testtuple);
-print(tuplesort(testtuple))
-
-
-
-#for index, item in enumerate(combinationslist):
-    #item = sorted(item, key=lambda x: x[0])
-    #combinationslist[index]=item;
-
-#print('sorted combionations:')
-#print(combinationslist);
+#print('test tuplesort')
+#testtuple = ("abcd","abc");
+#print(testtuple);
+#print(tuplesort(testtuple))
 
 
 
